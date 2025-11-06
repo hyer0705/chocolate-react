@@ -1,10 +1,10 @@
 import "./App.css";
-import Form from "./components/Form";
+import OrderEditor from "./components/OrderEditor";
 
 function App() {
   return (
     <>
-      <Form />
+      <OrderEditor />
     </>
   );
 }
