@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const OrderEditor = () => {
-  const [menu, setMenu] = useState("");
-  const [address, setAddress] = useState("");
-  const [request, setRequest] = useState("");
+  const [order, setOrder] = useState({
+    menu: "",
+    address: "",
+    request: "",
+  });
 
-  const onMenuChange = (e) => setMenu(e.target.value);
-  const onAddressChange = (e) => setAddress(e.target.value);
-  const onRequestChange = (e) => setRequest(e.target.value);
+  const addressRef = useRef();
+
+  const onOrderChange = (e) => {
+    setOrder({
+      ...order,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const onSubmit = () => {
+    const { menu, address, request } = order;
+    console.log(addressRef);
+
+    if (addressRef.current.value === "") {
+      addressRef.current.focus();
+      return;
+    }
+
     const response = `주문이 완료되었습니다 메뉴: ${menu}, 주소: ${address}, 요청사항: ${request}`;
 
     alert(response);
@@ -20,7 +35,7 @@ const OrderEditor = () => {
       <h2>배달의민족 주문</h2>
       <div>
         <div style={{ marginBottom: 5, fontSize: 14 }}>메뉴 선택</div>
-        <select value={menu} onChange={onMenuChange} style={{ width: 300, padding: 5 }}>
+        <select name="menu" value={order.menu} onChange={onOrderChange} style={{ width: 300, padding: 5 }}>
           <option value={"족발"}>족발</option>
           <option value={"떡볶이"}>떡볶이</option>
           <option value={"아이스크림"}>아이스크림</option>
@@ -29,11 +44,24 @@ const OrderEditor = () => {
       </div>
       <div>
         <div style={{ marginBottom: 5, fontSize: 14 }}>배달 주소</div>
-        <input value={address} onChange={onAddressChange} style={{ width: 300, padding: 5 }} placeholder="주소) 서울특별시 xx동 .." />
+        <input
+          ref={addressRef}
+          name="address"
+          value={order.address}
+          onChange={onOrderChange}
+          style={{ width: 300, padding: 5 }}
+          placeholder="주소) 서울특별시 xx동 .."
+        />
       </div>
       <div>
         <div style={{ marginBottom: 5, fontSize: 14 }}>배달 요청사항</div>
-        <textarea value={request} onChange={onRequestChange} style={{ width: 300, padding: 5 }} placeholder="배달 요청사항을 써 주세요..." />
+        <textarea
+          name="request"
+          value={order.request}
+          onChange={onOrderChange}
+          style={{ width: 300, padding: 5 }}
+          placeholder="배달 요청사항을 써 주세요..."
+        />
       </div>
       <div>
         <button onClick={onSubmit} style={{ width: 300, padding: 5 }}>

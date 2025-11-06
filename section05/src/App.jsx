@@ -1,10 +1,12 @@
 import "./App.css";
-import Form from "./components/Form";
+import Hook from "./components/Hook";
+import Register from "./components/Register";
 
 function App() {
   return (
     <>
-      <Form />
+      <Register />
+      <Hook />
     </>
   );
 }
