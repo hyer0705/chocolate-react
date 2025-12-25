@@ -1,12 +1,13 @@
 import "./App.css";
-import { useState, useRef } from "react";
+import { useRef, useReducer } from "react";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import List from "./components/List";
 import { mockTodos } from "./data/mockData";
+import reducer, { ACTIONS } from "./reducers/todoReducer";
 
 function App() {
-  const [todos, setTodos] = useState(mockTodos);
+  const [todos, dispatch] = useReducer(reducer, mockTodos);
   const nextId = useRef(3);
 
   const onCreate = (content) => {
@@ -17,15 +18,24 @@ function App() {
       date: new Date().getTime(),
     };
 
-    setTodos([...todos, newTodo]);
+    dispatch({
+      type: ACTIONS.CREATE,
+      data: newTodo,
+    });
   };
 
   const onUpdate = (targetId) => {
-    setTodos(todos.map((todo) => (todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo)));
+    dispatch({
+      type: ACTIONS.UPDATE,
+      targetId,
+    });
   };
 
   const onDelete = (targetId) => {
-    setTodos(todos.filter(({ id }) => id !== targetId));
+    dispatch({
+      type: ACTIONS.DELETE,
+      targetId,
+    });
   };
 
   return (
