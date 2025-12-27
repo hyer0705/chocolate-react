@@ -1,9 +1,12 @@
-import { useState, useRef, memo } from "react";
+import { useState, useRef, memo, useContext } from "react";
 import "./Editor.css";
+import { TodoDispatchContext } from "../contexts/TodoContext";
 
-const Editor = ({ onCreate }) => {
+const Editor = () => {
   const [content, setContent] = useState("");
   const contentRef = useRef();
+
+  const { onCreate } = useContext(TodoDispatchContext);
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
@@ -34,3 +37,4 @@ const Editor = ({ onCreate }) => {
 };
 
 export default memo(Editor);
+// export default Editor;
